@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { getDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -45,6 +46,17 @@ export default function SignIn() {
    try{
     const {user} = await signInWithEmailAndPassword(auth,email,password);
     localStorage.setItem('uid',user.uid);
+    toast.success('User Login Successfully', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+
     navigate('/todos')
     console.log(user)
    }

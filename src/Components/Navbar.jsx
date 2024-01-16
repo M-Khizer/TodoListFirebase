@@ -7,6 +7,7 @@ import { Button, Grid } from '@mui/material';
 import {auth} from '../firebaseConfig'
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Navbar({userName}) {
     
@@ -16,6 +17,17 @@ export default function Navbar({userName}) {
         try{
             await signOut(auth);
             localStorage.clear()
+            toast.success('User Logout Successfully', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
+        
             nav('/signin');
         }
         catch(err){
