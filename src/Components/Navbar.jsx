@@ -3,18 +3,19 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import {auth} from '../firebaseConfig'
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-export default function Navbar() {
+export default function Navbar({userName}) {
     
     const nav = useNavigate()
 
     const handleLogout = async()=>{
         try{
             await signOut(auth);
+            localStorage.clear()
             nav('/signin');
         }
         catch(err){
@@ -22,7 +23,7 @@ export default function Navbar() {
         }
       
     }
-
+console.log(userName)
     return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -30,12 +31,15 @@ export default function Navbar() {
         <Toolbar variant="dense" 
         sx={{padding:"1rem",display:'flex',justifyContent:'space-between',alignItems:'center'}}>
          
-            <Typography variant='h4' >TODO App</Typography>
-                
-          <Button  onClick={handleLogout}
-          sx={{fontSize:'1rem',fontWeight:"bold",letterSpacing:"3px"}} color="inherit" component="div">
-            Logout
-          </Button>
+            <Typography variant='h4' >{userName}'s Todolist</Typography>
+          <Grid>
+            <Button  onClick={handleLogout}
+            sx={{fontSize:'1rem',fontWeight:"bold",letterSpacing:"3px"}} color="inherit" component="div">
+              Logout
+            </Button>
+            <Typography></Typography>  
+          </Grid>  
+          
 
         </Toolbar>
       </AppBar>

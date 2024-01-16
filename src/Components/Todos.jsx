@@ -1,4 +1,4 @@
-import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, CssBaseline, Grid, TextField, Typography} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import {firestore,auth} from '../firebaseConfig'
 import { arrayUnion, doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore'
@@ -9,6 +9,8 @@ const Todos = () => {
 
     const [task,settask] = useState('')
     const [allTasks,setAllTasks] = useState([])
+    const [refresh,setRefresh] = useState(true);
+    const [userName,setUserName] = useState('')
 
     useEffect(()=>{
 
@@ -20,6 +22,11 @@ const Todos = () => {
                 const docSnapShot = await getDoc(docRef);
                 const taskData = docSnapShot?.data()?.task || []; // Set default value to an empty array
                 setAllTasks(taskData);
+                const nameRef = doc(firestore,'users',uid)
+                const nameSnapShot = await getDoc(nameRef)
+                const nameData = nameSnapShot?.data()?.firstName;
+                setUserName(nameData)
+                console.log(userName)
               } catch (err) {
                 console.error(err);
               }
@@ -31,7 +38,7 @@ const Todos = () => {
 
           return () => unsubscribe();}
           
-          ,[])
+          ,[refresh])
 
     const handleSubmit = async(e)=>{
         
@@ -72,7 +79,7 @@ const Todos = () => {
       };
     
       const handleUpdateTask = async() => {
-        
+        setRefresh(!refresh)
       };
 
 
@@ -80,7 +87,7 @@ const Todos = () => {
     
     <div>
         <Container sx={{marginTop:"8rem"}}>
-            <Navbar/>
+            <Navbar userName = {userName}/>
             <CssBaseline/>
             
            

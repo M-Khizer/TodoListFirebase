@@ -43,7 +43,8 @@ export default function SignIn() {
   const handleSubmit = async(event) => {
     event.preventDefault();
    try{
-    const {user} = await signInWithEmailAndPassword(auth,email,password)
+    const {user} = await signInWithEmailAndPassword(auth,email,password);
+    localStorage.setItem('uid',user.uid);
     navigate('/todos')
     console.log(user)
    }
